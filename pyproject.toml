@@ -1,0 +1,13 @@
+[project]
+name = "suml-pjatk"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["ruff>=0.15.6"]
+
+[tool.ruff.lint]
+select = ["ANN", "S", "D103"]
+
+[dependency-groups]
+dev = ["pre-commit>=4.5.1"]
