@@ -1,0 +1,16 @@
+services:
+  api:
+    container_name: api
+    build: ./api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
