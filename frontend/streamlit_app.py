@@ -2,28 +2,56 @@ import streamlit as st
 import requests
 
 API_URL = "http://api:8000/predict"
+OPTIONS_URL = "http://api:8000/options"
+MODELS_URL = "http://api:8000/models"
 
 st.title("Used Car Price Predictor")
 
-brand = st.text_input("Brand", "Toyota")
-model = st.text_input("Model", "Corolla")
+@st.cache_data
+def load_options():
+    response = requests.get(OPTIONS_URL)
+    response.raise_for_status()
+    return response.json()
+
+@st.cache_data
+def load_models(brand):
+    response = requests.get(MODELS_URL, params={"brand": brand})
+    response.raise_for_status()
+    return response.json()["models"]
+
+options = {}
+try:
+    options = load_options()
+except requests.RequestException as error:
+    st.error(f"Could not load options from API: {error}")
+    st.stop()
+
+
+brand = st.selectbox("Brand", options["brand"])
+models = load_models(brand)
+
+if not models:
+    st.warning(f"No models found for brand: {brand}")
+    st.stop()
+
+model = st.selectbox("Model", models)
 
 model_year = st.number_input("Model year", min_value=1980, max_value=2026, value=2018)
 milage = st.number_input("Milage", min_value=0.0, value=100000.0)
 
-fuel_type = st.text_input("Fuel type", "Gasoline")
+fuel_type = st.selectbox("Fuel type", options["fuel_type"])
 engine = st.text_input("Engine", "2.0L I4")
-transmission = st.text_input("Transmission", "Automatic")
-
-ext_col = st.text_input("Exterior color", "White")
-int_col = st.text_input("Interior color", "Black")
-
-accident = st.selectbox("Accident", ["None reported", "At least 1 accident or damage reported"])
-clean_title = st.selectbox("Clean title", ["Yes", "No"])
-
+transmission = st.selectbox("Transmission", options["transmission"])
 engine_hp = st.number_input("Engine HP", min_value=0.0, value=150.0)
 engine_liters = st.number_input("Engine liters", min_value=0.0, value=2.0)
 engine_cylinders = st.number_input("Engine cylinders", min_value=0.0, value=4.0)
+
+
+ext_col = st.selectbox("Exterior color", options["ext_col"])
+int_col = st.selectbox("Interior color", options["int_col"])
+
+accident = st.selectbox("Accident", options["accident"])
+clean_title = st.selectbox("Clean title", options["clean_title"])
 
 if st.button("Predict"):
     payload = {
