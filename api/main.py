@@ -31,7 +31,7 @@ class CarInput(BaseModel):
     ext_col: str
     int_col: str
     accident: str
-    clean_title: str
+    clean_title: str = "Yes"
     engine_hp: float
     engine_liters: float
     engine_cylinders: float
@@ -45,7 +45,6 @@ def get_distinct_values(column_name: str) -> list[str]:
         "ext_col",
         "int_col",
         "accident",
-        "clean_title",
     }
 
     if column_name not in allowed_columns:
@@ -73,7 +72,6 @@ def get_options():
         "ext_col": get_distinct_values("ext_col"),
         "int_col": get_distinct_values("int_col"),
         "accident": get_distinct_values("accident"),
-        "clean_title": get_distinct_values("clean_title"),
     }
 
 

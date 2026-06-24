@@ -51,7 +51,6 @@ ext_col = st.selectbox("Exterior color", options["ext_col"])
 int_col = st.selectbox("Interior color", options["int_col"])
 
 accident = st.selectbox("Accident", options["accident"])
-clean_title = st.selectbox("Clean title", options["clean_title"])
 
 if st.button("Predict"):
     payload = {
@@ -65,7 +64,6 @@ if st.button("Predict"):
         "ext_col": ext_col,
         "int_col": int_col,
         "accident": accident,
-        "clean_title": clean_title,
         "engine_hp": float(engine_hp),
         "engine_liters": float(engine_liters),
         "engine_cylinders": float(engine_cylinders),
@@ -75,6 +73,6 @@ if st.button("Predict"):
 
     if response.ok:
         result = response.json()
-        st.success(f"Predicted price: {result['predicted_price']}")
+        st.success(f"Predicted price: ${result['predicted_price']:,.2f}")
     else:
         st.error(response.text)
