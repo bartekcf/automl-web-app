@@ -82,9 +82,26 @@ Pliki te są już częścią projektu i nie wymagają dodatkowego pobierania.
 ## Struktura projektu
 
 ```text
-api/         - backend FastAPI
-frontend/    - interfejs Streamlit
-models/      - zapisany model uczenia maszynowego
-data/        - baza danych
-notebooks/   - notebook wykorzystany podczas pracy nad modelem
+├── README.md
+├── api
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── pyproject.toml
+│   └── uv.lock
+├── data
+│   └── db.sqlite
+├── docker-compose.yml
+├── frontend
+│   ├── Dockerfile
+│   ├── pyproject.toml
+│   ├── streamlit_app.py
+│   └── uv.lock
+├── main.py
+├── models
+│   └── used_car_price_model.pkl
+├── notebooks
+│   └── EDA_used_car_price.ipynb
+├── pyproject.toml
+└── uv.lock
+
 ```
